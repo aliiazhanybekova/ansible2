@@ -1,0 +1,33 @@
+  - name: istall Apache
+    apt:
+      name: apache2
+      state: latest
+
+  - name: start and enable Apache
+    systemd:
+      state: started
+      enabled: yes
+      name: apache2
+
+  - name: Download template
+    get_url:
+      url: https://www.free-css.com/assets/files/free-css-templates/download/page285/farmfresh.zip
+      dest: /tmp/farmfresh.zip
+
+  - name: Install Unzip
+    apt:
+      name: unzip
+      state: latest
+
+  - name: Unarchive
+    unarchive:
+      src: /tmp/farmfresh.zip
+      dest: /tmp/
+      remote_src: yes
+
+  - name: Move files to html
+    shell: "mv /tmp/organic-farm-website-template/* /var/www/html/"
+    args:
+      creates: /var/www/html/contact.html
+
+ 
